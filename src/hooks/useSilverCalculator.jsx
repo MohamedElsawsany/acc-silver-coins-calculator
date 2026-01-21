@@ -38,7 +38,7 @@ export const useSilverCalculator = () => {
         } else if (selectedRows.size === 0) {
             setSelectAll(false);
         }
-    }, [products.length, selectedRows.size]);
+    }, [products, selectedRows]);
 
     // Invoice field handlers
     const updateInvoiceNo = useCallback((value) => {
