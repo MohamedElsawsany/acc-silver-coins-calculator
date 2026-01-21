@@ -1,0 +1,147 @@
+{
+  "header": {
+    "title": "حاسبة الفضة",
+    "subtitle": "نظام احترافي لإدارة أسعار الفضة",
+    "licensed": "مرخص"
+  },
+  "copyright": {
+    "text": "© 2025 Mohamed Hassan Elsawsany. جميع الحقوق محفوظة.",
+    "notice": "هذا البرنامج محمي بموجب قوانين حقوق النشر والمعاهدات الدولية. يحظر النسخ أو التوزيع غير المصرح به.",
+    "viewLicense": "عرض الترخيص"
+  },
+  "silverPrice": {
+    "title": "إعدادات سعر الفضة",
+    "price999k": "سعر الفضة (عيار 999)",
+    "price925k": "سعر الفضة (عيار 925)",
+    "placeholder999k": "أدخل سعر الفضة عيار 999",
+    "placeholder925k": "سعر عيار 925 محسوب تلقائياً",
+    "errors": {
+      "invalid": "الرجاء إدخال رقم صحيح",
+      "tooLow": "يجب أن يكون السعر أكبر من 0",
+      "tooHigh": "السعر يبدو غير واقعي (الحد الأقصى: 100,000)",
+      "required": "الرجاء إدخال سعر ذهب صحيح"
+    }
+  },
+  "products": {
+    "title": "تفاصيل المنتجات",
+    "selectProduct": "اختر المنتج",
+    "noProducts": "لا توجد منتجات",
+    "quantity": "الكمية",
+    "itemPrice": "سعر القطعة",
+    "total": "الإجمالي",
+    "addRow": "إضافة صف",
+    "deleteSelected": "حذف المحدد",
+    "helpText": "اختر المنتجات وأدخل الكميات لحساب الأسعار"
+  },
+  "transaction": {
+    "sale": "بيع",
+    "return": "مرتجع",
+    "returnUnpacked": "مرتجع بدون تغليف",
+    "stamp": "الدمغة",
+    "cashback": "الكاش باك",
+    "cashbackUnpacked": "كاش باك بدون تغليف",
+    "typeChanged": "تم تغيير نوع المعاملة إلى: {{type}}"
+  },
+  "table": {
+    "selectAll": "تحديد الكل",
+    "product": "المنتج",
+    "qty": "الكمية",
+    "stamp": "الدمغة",
+    "itemPrice": "سعر القطعة",
+    "total": "الإجمالي"
+  },
+  "totals": {
+    "grandTotal": "الإجمالي الكلي",
+    "placeholder": "0.00"
+  },
+  "actions": {
+    "add": "إضافة",
+    "delete": "حذف",
+    "close": "إغلاق",
+    "reload": "إعادة تحميل التطبيق"
+  },
+  "messages": {
+    "rowAdded": "تم إضافة صف جديد",
+    "rowsDeleted": "تم حذف {{count}} صف/صفوف",
+    "selectToDelete": "الرجاء تحديد صف واحد على الأقل للحذف",
+    "calculationError": "خطأ في حساب سعر المنتج",
+    "validationError": "الرجاء إدخال {{field}} صحيح"
+  },
+  "validation": {
+    "quantity": {
+      "invalid": "الرجاء إدخال كمية صحيحة",
+      "min": "يجب أن تكون الكمية 1 على الأقل",
+      "max": "الحد الأقصى للكمية هو 9999"
+    }
+  },
+  "license": {
+    "title": "اتفاقية ترخيص البرنامج",
+    "productInfo": {
+      "title": "معلومات المنتج",
+      "software": "البرنامج:",
+      "softwareName": "حاسبة الفضة",
+      "version": "الإصدار:",
+      "versionNumber": "3.0",
+      "copyright": "حقوق النشر:",
+      "copyrightText": "© 2025 Mohamed Hassan Elsawsany",
+      "licenseType": "نوع الترخيص:",
+      "licenseTypeName": "ترخيص برمجيات خاصة"
+    },
+    "userRights": {
+      "title": "حقوق المستخدم المرخص",
+      "use": "استخدام هذا البرنامج لأغراض تجارية مشروعة",
+      "manage": "إدارة معاملات الفضة",
+      "access": "الوصول إلى جميع الميزات والوظائف المضمنة"
+    },
+    "restrictions": {
+      "title": "القيود",
+      "noCopying": "عدم النسخ:",
+      "noCopyingText": "لا يجوز لك نسخ أو إعادة إنتاج أو تكرار هذا البرنامج",
+      "noDistribution": "عدم التوزيع:",
+      "noDistributionText": "لا يجوز لك توزيع أو مشاركة أو نقل هذا البرنامج",
+      "noReverseEngineering": "عدم الهندسة العكسية:",
+      "noReverseEngineeringText": "لا يجوز لك فك تجميع أو تفكيك أو إجراء هندسة عكسية",
+      "noModification": "عدم التعديل:",
+      "noModificationText": "لا يجوز لك تعديل أو تغيير أو إنشاء أعمال مشتقة",
+      "noCommercial": "عدم إعادة التوزيع التجاري:",
+      "noCommercialText": "لا يجوز لك بيع أو توزيع تجارياً"
+    },
+    "legalNotice": {
+      "title": "إشعار قانوني",
+      "text": "هذا البرنامج محمي بموجب قوانين حقوق النشر والمعاهدات الدولية. قد يؤدي الاستخدام أو الاستنساخ أو التوزيع غير المصرح به إلى عقوبات مدنية وجنائية شديدة.",
+      "violations": "قد يؤدي انتهاك هذا الترخيص إلى:",
+      "termination": "الإنهاء الفوري لحقوق الاستخدام",
+      "legal": "اتخاذ إجراءات قانونية لانتهاك حقوق النشر",
+      "damages": "تعويضات مالية ورسوم قانونية"
+    },
+    "contact": {
+      "title": "معلومات الاتصال",
+      "support": "الدعم الفني:",
+      "email": "mohamed.elsawsany10@gmail.com",
+      "phone": "الهاتف:",
+      "phoneNumber": "+201028170756"
+    }
+  },
+  "error": {
+    "title": "حدث خطأ ما",
+    "message": "واجه التطبيق خطأ غير متوقع. يرجى تحديث الصفحة.",
+    "showDetails": "إظهار تفاصيل الخطأ",
+    "errorLabel": "الخطأ:",
+    "stackLabel": "المكدس:"
+  },
+  "watermark": "مرخص لـ: © 2025 Mohamed Hassan Elsawsany",
+  "language": {
+    "english": "الإنجليزية",
+    "arabic": "العربية",
+    "switchTo": "التبديل إلى {{language}}"
+  },
+  "aria": {
+    "selectRow": "تحديد الصف {{id}}",
+    "selectProduct": "اختر نوع المنتج",
+    "productQuantity": "كمية المنتج",
+    "itemPrice": "سعر القطعة",
+    "totalPrice": "السعر الإجمالي",
+    "selectAllProducts": "تحديد جميع المنتجات",
+    "autoCalculated": "سعر الفضة 925 قيراط محسوب تلقائياً"
+  }
+}

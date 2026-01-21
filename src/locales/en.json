@@ -1,0 +1,147 @@
+{
+  "header": {
+    "title": "Silver Calculator",
+    "subtitle": "Professional Silver Price Management System",
+    "licensed": "Licensed"
+  },
+  "copyright": {
+    "text": "© 2025 Mohamed Hassan Elsawsany. All Rights Reserved.",
+    "notice": "This software is protected by copyright law and international treaties. Unauthorized reproduction or distribution is prohibited.",
+    "viewLicense": "View License"
+  },
+  "silverPrice": {
+    "title": "Silver Price Configuration",
+    "price999k": "Silver Price (999K)",
+    "price925k": "Silver Price (925K)",
+    "placeholder999k": "Enter 999k silver price",
+    "placeholder925k": "Auto-calculated 925k price",
+    "errors": {
+      "invalid": "Please enter a valid number",
+      "tooLow": "Price must be greater than 0",
+      "tooHigh": "Price seems unrealistic (max: 100,000)",
+      "required": "Please enter a valid silver price"
+    }
+  },
+  "products": {
+    "title": "Product Details",
+    "selectProduct": "Select Product",
+    "noProducts": "No products found",
+    "quantity": "Qty",
+    "itemPrice": "Item Price",
+    "total": "Total",
+    "addRow": "Add Row",
+    "deleteSelected": "Delete Selected",
+    "helpText": "Select products and enter quantities to calculate prices"
+  },
+  "transaction": {
+    "sale": "Sale",
+    "return": "Return",
+    "returnUnpacked": "Return Unpacked",
+    "stamp": "Stamp",
+    "cashback": "Cashback",
+    "cashbackUnpacked": "Cashback Unpacked",
+    "typeChanged": "Transaction type changed to: {{type}}"
+  },
+  "table": {
+    "selectAll": "Select All",
+    "product": "Product",
+    "qty": "Qty",
+    "stamp": "Stamp",
+    "itemPrice": "Item Price",
+    "total": "Total"
+  },
+  "totals": {
+    "grandTotal": "Grand Total",
+    "placeholder": "0.00"
+  },
+  "actions": {
+    "add": "Add",
+    "delete": "Delete",
+    "close": "Close",
+    "reload": "Reload Application"
+  },
+  "messages": {
+    "rowAdded": "New row added",
+    "rowsDeleted": "{{count}} row(s) deleted",
+    "selectToDelete": "Please select at least one row to delete",
+    "calculationError": "Error calculating product price",
+    "validationError": "Please enter a valid {{field}}"
+  },
+  "validation": {
+    "quantity": {
+      "invalid": "Please enter a valid quantity",
+      "min": "Quantity must be at least 1",
+      "max": "Maximum quantity is 9999"
+    }
+  },
+  "license": {
+    "title": "Software License Agreement",
+    "productInfo": {
+      "title": "Product Information",
+      "software": "Software:",
+      "softwareName": "Silver Calculator",
+      "version": "Version:",
+      "versionNumber": "3.0",
+      "copyright": "Copyright:",
+      "copyrightText": "© 2025 Mohamed Hassan Elsawsany",
+      "licenseType": "License Type:",
+      "licenseTypeName": "Proprietary Software License"
+    },
+    "userRights": {
+      "title": "Licensed User Rights",
+      "use": "Use this software for legitimate business purposes",
+      "manage": "Manage silver transactions",
+      "access": "Access all included features and functionality"
+    },
+    "restrictions": {
+      "title": "Restrictions",
+      "noCopying": "No Copying:",
+      "noCopyingText": "You may not copy, reproduce, or duplicate this software",
+      "noDistribution": "No Distribution:",
+      "noDistributionText": "You may not distribute, share, or transfer this software",
+      "noReverseEngineering": "No Reverse Engineering:",
+      "noReverseEngineeringText": "You may not decompile, disassemble, or reverse engineer",
+      "noModification": "No Modification:",
+      "noModificationText": "You may not modify, alter, or create derivative works",
+      "noCommercial": "No Commercial Redistribution:",
+      "noCommercialText": "You may not sell or commercially distribute"
+    },
+    "legalNotice": {
+      "title": "Legal Notice",
+      "text": "This software is protected by copyright law and international treaties. Unauthorized use, reproduction, or distribution may result in severe civil and criminal penalties.",
+      "violations": "Violation of this license may result in:",
+      "termination": "Immediate termination of usage rights",
+      "legal": "Legal action for copyright infringement",
+      "damages": "Monetary damages and legal fees"
+    },
+    "contact": {
+      "title": "Contact Information",
+      "support": "Technical Support:",
+      "email": "mohamed.elsawsany10@gmail.com",
+      "phone": "Phone:",
+      "phoneNumber": "+201028170756"
+    }
+  },
+  "error": {
+    "title": "Something went wrong",
+    "message": "The application encountered an unexpected error. Please refresh the page.",
+    "showDetails": "Show error details",
+    "errorLabel": "Error:",
+    "stackLabel": "Stack:"
+  },
+  "watermark": "Licensed to: © 2025 Mohamed Hassan Elsawsany",
+  "language": {
+    "english": "English",
+    "arabic": "Arabic",
+    "switchTo": "Switch to {{language}}"
+  },
+  "aria": {
+    "selectRow": "Select row {{id}}",
+    "selectProduct": "Select product type",
+    "productQuantity": "Product quantity",
+    "itemPrice": "Item price",
+    "totalPrice": "Total price",
+    "selectAllProducts": "Select all products",
+    "autoCalculated": "Automatically calculated 925K silver price"
+  }
+}
