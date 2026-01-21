@@ -8,6 +8,15 @@ import { toast } from 'react-toastify';
 
 export const useSilverCalculator = () => {
     const { t } = useTranslation();
+    
+    // Invoice information fields
+    const [invoiceNo, setInvoiceNo] = useState('');
+    const [serialNo, setSerialNo] = useState('');
+    const [customerName, setCustomerName] = useState('');
+    const [customerPhone, setCustomerPhone] = useState('');
+    const [invoiceNoError, setInvoiceNoError] = useState('');
+    const [customerNameError, setCustomerNameError] = useState('');
+    
     const [silverPrice, setSilverPrice] = useState('');
     const [silverPrice925, setSilverPrice925] = useState('');
     const [transactionType, setTransactionType] = useState('sale');
@@ -16,14 +25,12 @@ export const useSilverCalculator = () => {
     ]);
     const [selectedRows, setSelectedRows] = useState(new Set());
     const [selectAll, setSelectAll] = useState(false);
-    const [silverPriceError, setsilverPriceError] = useState('');
+    const [silverPriceError, setSilverPriceError] = useState('');
 
-    // Simple derived value - recalculates on every render (fast enough for simple arithmetic)
     const grandTotal = calculateGrandTotal(
         products.map(p => ({ total: parseNumber(p.total) }))
     ).toString();
 
-    // ✅ FIX: Sync selectAll state when products or selectedRows change
     useEffect(() => {
         if (products.length > 0 && selectedRows.size > 0) {
             const allSelected = products.every(p => selectedRows.has(p.id));
@@ -31,25 +38,78 @@ export const useSilverCalculator = () => {
         } else if (selectedRows.size === 0) {
             setSelectAll(false);
         }
-    }, [products.length, selectedRows.size]); // Only depend on length/size to avoid over-triggering
+    }, [products.length, selectedRows.size]);
+
+    // Invoice field handlers
+    const updateInvoiceNo = useCallback((value) => {
+        setInvoiceNo(value);
+        if (value.trim()) {
+            setInvoiceNoError('');
+        }
+    }, []);
+
+    const updateSerialNo = useCallback((value) => {
+        setSerialNo(value);
+    }, []);
+
+    const updateCustomerName = useCallback((value) => {
+        setCustomerName(value);
+        if (value.trim()) {
+            setCustomerNameError('');
+        }
+    }, []);
+
+    const updateCustomerPhone = useCallback((value) => {
+        setCustomerPhone(value);
+    }, []);
+
+    // Validate invoice fields before printing
+    const validateInvoiceFields = useCallback(() => {
+        let isValid = true;
+        
+        if (!invoiceNo.trim()) {
+            setInvoiceNoError(t('invoiceInfo.errors.invoiceNoRequired'));
+            isValid = false;
+        }
+        
+        if (!customerName.trim()) {
+            setCustomerNameError(t('invoiceInfo.errors.customerNameRequired'));
+            isValid = false;
+        }
+        
+        return isValid;
+    }, [invoiceNo, customerName, t]);
+
+    // Reset form function
+    const resetForm = useCallback(() => {
+        setInvoiceNo('');
+        setSerialNo('');
+        setCustomerName('');
+        setCustomerPhone('');
+        setInvoiceNoError('');
+        setCustomerNameError('');
+        setSilverPrice('');
+        setSilverPrice925('');
+        setSilverPriceError('');
+        setTransactionType('sale');
+        setProducts([
+            { id: 1, productId: 0, quantity: '1', selectedProduct: null, stampEnduserValue: '', itemPrice: '', total: '' }
+        ]);
+        setSelectedRows(new Set());
+        setSelectAll(false);
+    }, []);
 
     const updateSilverPrice = useCallback((value) => {
-        // Remove non-numeric characters except decimal point
         let cleanValue = value.replace(/[^\d.]/g, '');
-
-        // Ensure only one decimal point
         const parts = cleanValue.split('.');
         if (parts.length > 2) {
             cleanValue = parts[0] + '.' + parts.slice(1).join('');
         }
 
-        // ✅ FIX: If field is completely empty, clear everything
         if (!cleanValue || cleanValue === '') {
             setSilverPrice('');
             setSilverPrice925('');
-            setsilverPriceError('');
-            
-            // Clear all product calculations
+            setSilverPriceError('');
             setProducts(prevProducts => {
                 return prevProducts.map(product => ({
                     ...product,
@@ -60,14 +120,10 @@ export const useSilverCalculator = () => {
             return;
         }
 
-        // Validate before updating - ✅ PASS t FUNCTION
         const validation = validateSilverPrice(cleanValue || '0', t);
-
-        // ✅ FIX: Format with commas as user types, but preserve trailing decimal
         const numericValue = parseFloat(cleanValue);
         let formattedValue = cleanValue;
         
-        // Preserve trailing decimal point for better UX
         if (cleanValue.endsWith('.') && parts.length === 2 && parts[1] === '') {
             const formattedInteger = parseInt(parts[0]).toLocaleString('en-US');
             formattedValue = formattedInteger + '.';
@@ -83,14 +139,13 @@ export const useSilverCalculator = () => {
 
         if (cleanValue && !isNaN(cleanValue) && parseFloat(cleanValue) > 0) {
             if (!validation.valid) {
-                setsilverPriceError(validation.error);
+                setSilverPriceError(validation.error);
                 toast.error(validation.error);
             } else {
-                setsilverPriceError('');
+                setSilverPriceError('');
                 const price925 = calculateSilverPrice925(cleanValue);
                 setSilverPrice925(price925.toString());
                 
-                // Force recalculation with the new silver price for all products
                 setProducts(prevProducts => {
                     return prevProducts.map(product => {
                         if (product.selectedProduct) {
@@ -98,7 +153,6 @@ export const useSilverCalculator = () => {
                                 ? parseNumber(product.stampEnduserValue)
                                 : getStampEnduserValue(product.selectedProduct, transactionType);
                             
-                            // Calculate if we have quantity
                             if (product.quantity && parseNumber(product.quantity) > 0) {
                                 try {
                                     const { itemPrice, total } = calculateItemPrice(
@@ -125,7 +179,7 @@ export const useSilverCalculator = () => {
                 });
             }
         } else if (cleanValue) {
-            setsilverPriceError(t('silverPrice.errors.required'));
+            setSilverPriceError(t('silverPrice.errors.required'));
         }
     }, [transactionType, t]);
 
@@ -136,10 +190,8 @@ export const useSilverCalculator = () => {
         setProducts(prevProducts => {
             return prevProducts.map(product => {
                 if (product.selectedProduct) {
-                    // Update stampEnduserValue based on transaction type
                     const newStampValue = getStampEnduserValue(product.selectedProduct, currentTransactionType);
                     
-                    // If we have silver price and quantity, calculate everything
                     if (price > 0 && product.quantity) {
                         try {
                             const { itemPrice, total } = calculateItemPrice(
@@ -165,7 +217,6 @@ export const useSilverCalculator = () => {
                             };
                         }
                     } else {
-                        // Even without silver price, update the stamp value
                         return {
                             ...product,
                             stampEnduserValue: newStampValue.toString()
@@ -180,15 +231,11 @@ export const useSilverCalculator = () => {
     const handleTransactionTypeChange = useCallback((type) => {
         setTransactionType(type);
         recalculateAllProducts(silverPrice, type);
-        
-        // Get translated type name
         const typeName = t(`transaction.${type}`);
         toast.info(t('transaction.typeChanged', { type: typeName }));
     }, [recalculateAllProducts, silverPrice, t]);
 
-    // ✅ MAIN FIX: Use state setter function pattern to access latest state
     const updateProduct = useCallback((id, field, value) => {
-        // Access latest state values using the functional update pattern
         setSilverPrice(currentSilverPrice => {
             setSilverPrice925(currentSilverPrice925 => {
                 setProducts(prevProducts => {
@@ -196,58 +243,48 @@ export const useSilverCalculator = () => {
                         if (product.id === id) {
                             const updated = { ...product, [field]: value };
 
-                            // ✅ FIX: Better product ID handling
                             if (field === 'productId') {
                                 const productIndex = parseInt(value) - 1;
                                 const selectedProduct = productIndex >= 0 ? saleProducts[productIndex] : null;
                                 updated.selectedProduct = selectedProduct;
                                 
-                                // Update stampEnduserValue when product changes
                                 if (selectedProduct) {
                                     updated.stampEnduserValue = getStampEnduserValue(selectedProduct, transactionType).toString();
                                 } else {
                                     updated.stampEnduserValue = '';
-                                    // Clear calculations if product is cleared
                                     updated.itemPrice = '';
                                     updated.total = '';
                                 }
                             }
 
-                            // ✅ FIX: Better quantity validation and handling - PASS t FUNCTION
                             if (field === 'quantity') {
-                                // Allow empty string for clearing the field
                                 if (value === '') {
                                     updated.quantity = '';
                                 } else {
                                     const validation = validateQuantity(value, t);
                                     if (!validation.valid) {
                                         toast.warning(validation.error);
-                                        return product; // Don't update if invalid
+                                        return product;
                                     }
                                     const qty = parseInt(value);
                                     updated.quantity = (!isNaN(qty) && qty >= 1) ? qty.toString() : '';
                                 }
                             }
 
-                            // Handle stampEnduserValue field update
                             if (field === 'stampEnduserValue') {
-                                // Allow user to edit this field
                                 const numValue = parseFloat(value);
                                 if (value === '' || (!isNaN(numValue) && numValue >= 0)) {
                                     updated.stampEnduserValue = value;
                                 } else {
-                                    return product; // Don't update if invalid
+                                    return product;
                                 }
                             }
 
-                            // ✅ CRITICAL FIX: Use current state values to avoid closure issues
                             const currentPrice = parseNumber(currentSilverPrice);
                             const currentPrice925 = parseNumber(currentSilverPrice925);
                             
-                            // Recalculate if we have all necessary data
                             if (updated.selectedProduct && updated.quantity && currentPrice > 0) {
                                 try {
-                                    // Use the updated stamp value if it exists and is valid, otherwise get default
                                     const stampValue = parseNumber(updated.stampEnduserValue);
                                     const finalStampValue = stampValue > 0 
                                         ? stampValue 
@@ -268,7 +305,6 @@ export const useSilverCalculator = () => {
                                     toast.error(t('messages.calculationError'));
                                 }
                             } else if ((field === 'quantity' && value === '') || (field === 'productId' && value === '0')) {
-                                // Clear prices when quantity is cleared or product is deselected
                                 updated.itemPrice = '';
                                 updated.total = '';
                             }
@@ -280,12 +316,8 @@ export const useSilverCalculator = () => {
 
                     return updatedProducts;
                 });
-                
-                // Return the same value to not update silverPrice925
                 return currentSilverPrice925;
             });
-            
-            // Return the same value to not update silverPrice
             return currentSilverPrice;
         });
     }, [transactionType, t]);
@@ -301,7 +333,6 @@ export const useSilverCalculator = () => {
             itemPrice: '',
             total: ''
         }]);
-        // ✅ FIX: Reset select all when adding new row
         setSelectAll(false);
         toast.success(t('messages.rowAdded'));
     }, [products, t]);
@@ -341,6 +372,20 @@ export const useSilverCalculator = () => {
     }, [selectAll, products]);
 
     return {
+        // Invoice info
+        invoiceNo,
+        serialNo,
+        customerName,
+        customerPhone,
+        invoiceNoError,
+        customerNameError,
+        updateInvoiceNo,
+        updateSerialNo,
+        updateCustomerName,
+        updateCustomerPhone,
+        validateInvoiceFields,
+        
+        // Silver calculator
         silverPrice,
         silverPrice925,
         transactionType,
@@ -355,6 +400,7 @@ export const useSilverCalculator = () => {
         addRow,
         removeSelectedRows,
         toggleRowSelection,
-        toggleSelectAll
+        toggleSelectAll,
+        resetForm
     };
 };

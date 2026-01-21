@@ -1,8 +1,8 @@
 export const formatMoney = (value) => {
     if (isNaN(value) || value === null || value === undefined) return '0.00';
     return Number(value).toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
     });
 };
 

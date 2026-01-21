@@ -9,6 +9,21 @@
     "notice": "هذا البرنامج محمي بموجب قوانين حقوق النشر والمعاهدات الدولية. يحظر النسخ أو التوزيع غير المصرح به.",
     "viewLicense": "عرض الترخيص"
   },
+  "invoiceInfo": {
+    "title": "معلومات الفاتورة",
+    "invoiceNo": "رقم الفاتورة",
+    "serialNo": "رقم الشهادة",
+    "customerName": "اسم العميل",
+    "customerPhone": "هاتف العميل",
+    "placeholderInvoiceNo": "أدخل رقم الفاتورة",
+    "placeholderSerialNo": "أدخل رقم الشهادة (اختياري)",
+    "placeholderCustomerName": "أدخل اسم العميل",
+    "placeholderCustomerPhone": "أدخل هاتف العميل (اختياري)",
+    "errors": {
+      "invoiceNoRequired": "رقم الفاتورة مطلوب",
+      "customerNameRequired": "اسم العميل مطلوب"
+    }
+  },
   "silverPrice": {
     "title": "إعدادات سعر الفضة",
     "price999k": "سعر الفضة (عيار 999)",
@@ -19,7 +34,7 @@
       "invalid": "الرجاء إدخال رقم صحيح",
       "tooLow": "يجب أن يكون السعر أكبر من 0",
       "tooHigh": "السعر يبدو غير واقعي (الحد الأقصى: 100,000)",
-      "required": "الرجاء إدخال سعر ذهب صحيح"
+      "required": "الرجاء إدخال سعر فضة صحيح"
     }
   },
   "products": {
@@ -58,14 +73,19 @@
     "add": "إضافة",
     "delete": "حذف",
     "close": "إغلاق",
-    "reload": "إعادة تحميل التطبيق"
+    "reload": "إعادة تحميل التطبيق",
+    "print": "طباعة الفاتورة"
   },
   "messages": {
     "rowAdded": "تم إضافة صف جديد",
     "rowsDeleted": "تم حذف {{count}} صف/صفوف",
     "selectToDelete": "الرجاء تحديد صف واحد على الأقل للحذف",
     "calculationError": "خطأ في حساب سعر المنتج",
-    "validationError": "الرجاء إدخال {{field}} صحيح"
+    "validationError": "الرجاء إدخال {{field}} صحيح",
+    "printValidationError": "الرجاء ملء جميع الحقول المطلوبة قبل الطباعة",
+    "invoicePrinted": "تم إرسال الفاتورة للطباعة بنجاح",
+    "formReset": "تم إعادة تعيين النموذج - جاهز لفاتورة جديدة",
+    "noProductsToPrint": "الرجاء إضافة منتج واحد على الأقل للطباعة"
   },
   "validation": {
     "quantity": {

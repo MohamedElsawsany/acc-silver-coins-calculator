@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from "./components/Header";
+import InvoiceInfoSection from "./components/InvoiceInfoSection";
 import SilverPriceSection from "./components/SilverPriceSection";
 import TransactionTypeSelector from "./components/TransactionTypeSelector";
 import ProductsTable from "./components/ProductsTable";
@@ -10,12 +11,28 @@ import TotalSection from "./components/TotalSection";
 import LicenseModal from "./components/LicenseModal";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { useSilverCalculator } from "./hooks/useSilverCalculator";
+import { printInvoice } from "./utils/printUtils";
+import { parseNumber } from "./utils/formatters";
 
 function App() {
   const { t, i18n } = useTranslation();
   const [showLicenseModal, setShowLicenseModal] = useState(false);
 
   const {
+    // Invoice info
+    invoiceNo,
+    serialNo,
+    customerName,
+    customerPhone,
+    invoiceNoError,
+    customerNameError,
+    updateInvoiceNo,
+    updateSerialNo,
+    updateCustomerName,
+    updateCustomerPhone,
+    validateInvoiceFields,
+    
+    // Silver calculator
     silverPrice,
     silverPrice925,
     transactionType,
@@ -31,6 +48,7 @@ function App() {
     removeSelectedRows,
     toggleRowSelection,
     toggleSelectAll,
+    resetForm,
   } = useSilverCalculator();
 
   const handleRemoveRows = () => {
@@ -40,7 +58,57 @@ function App() {
     }
   };
 
-  // ✅ FIX: Determine RTL based on current language
+  const handlePrint = () => {
+    // Validate invoice fields
+    if (!validateInvoiceFields()) {
+      toast.error(t('messages.printValidationError'));
+      return;
+    }
+
+    // Validate that we have at least one product with data
+    const validProducts = products.filter(p => 
+      p.selectedProduct && 
+      parseNumber(p.quantity) > 0 && 
+      parseNumber(p.total) > 0
+    );
+
+    if (validProducts.length === 0) {
+      toast.error(t('messages.noProductsToPrint'));
+      return;
+    }
+
+    // Prepare invoice data
+    const invoiceData = {
+      invoice_no: invoiceNo,
+      serial_no: serialNo || null,
+      customer_name: customerName,
+      customer_phone: customerPhone || '',
+      created_date: new Date().toISOString(),
+      total_price: parseNumber(grandTotal),
+      items: validProducts.map(product => ({
+        item_name: product.selectedProduct.name,
+        item_karat: product.selectedProduct.karat,
+        item_weight: product.selectedProduct.weight,
+        item_quantity: parseNumber(product.quantity),
+        item_price: parseNumber(product.itemPrice),
+        item_total_price: parseNumber(product.total)
+      }))
+    };
+
+    // Print the invoice
+    printInvoice(invoiceData);
+
+    // Reset the form after printing
+    toast.success(t('messages.invoicePrinted'));
+    
+    // Reset all fields after a short delay to allow the print dialog to open
+    setTimeout(() => {
+      resetForm();
+      toast.info(t('messages.formReset'));
+    }, 500);
+  };
+
+  // Determine RTL based on current language
   const isRTL = i18n.language === 'ar';
 
   return (
@@ -66,6 +134,19 @@ function App() {
                     {t('copyright.viewLicense')}
                   </button>
                 </div>
+
+                <InvoiceInfoSection
+                  invoiceNo={invoiceNo}
+                  serialNo={serialNo}
+                  customerName={customerName}
+                  customerPhone={customerPhone}
+                  invoiceNoError={invoiceNoError}
+                  customerNameError={customerNameError}
+                  onInvoiceNoChange={updateInvoiceNo}
+                  onSerialNoChange={updateSerialNo}
+                  onCustomerNameChange={updateCustomerName}
+                  onCustomerPhoneChange={updateCustomerPhone}
+                />
 
                 <SilverPriceSection
                   silverPrice={silverPrice}
@@ -115,10 +196,13 @@ function App() {
                       </div>
                     </div>
                     <div className="col-md-6 text-end">
-                      <small className="text-muted">
-                        <i className="fas fa-info-circle me-1"></i>
-                        {t('products.helpText')}
-                      </small>
+                      <button
+                        className="btn btn-primary"
+                        type="button"
+                        onClick={handlePrint}
+                      >
+                        <i className="fas fa-print me-2"></i>{t('actions.print')}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -138,7 +222,6 @@ function App() {
           onHide={() => setShowLicenseModal(false)}
         />
 
-        {/* ✅ FIX: Toast Container with RTL support */}
         <ToastContainer
           position={isRTL ? "top-left" : "top-right"}
           autoClose={3000}
