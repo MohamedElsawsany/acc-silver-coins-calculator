@@ -3,8 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 const LicenseModal = ({ show, onHide }) => {
-    const { t, i18n } = useTranslation();
-    const isRTL = i18n.language === 'ar';
+    const { t } = useTranslation();
 
     return (
         <Modal show={show} onHide={onHide} size="lg" centered>

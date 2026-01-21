@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
 
 const Header = ({ onShowLicense }) => {
-    const { t, i18n } = useTranslation();
-    const isRTL = i18n.language === 'ar';
+    const { t} = useTranslation();
 
     return (
         <div className="card-header">
